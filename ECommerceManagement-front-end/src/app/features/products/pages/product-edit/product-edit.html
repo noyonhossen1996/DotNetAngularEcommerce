@@ -1,0 +1,79 @@
+<h2>Edit Product</h2>
+
+<hr />
+
+<h3>Product Images</h3>
+
+<input type="file" accept="image/*" (change)="onFileSelected($event)" />
+
+<button type="button" (click)="uploadImage()">
+  Upload Image
+</button>
+
+@if (form.value) {
+  <p>After upload, product images will be visible in product list/details.</p>
+}
+
+@if (error()) {
+  <p style="color:red">{{ error() }}</p>
+}
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div>
+    <label>Name</label>
+    <input type="text" formControlName="name" />
+  </div>
+
+  <div>
+    <label>Description</label>
+    <textarea formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label>SKU</label>
+    <input type="text" formControlName="sku" />
+  </div>
+
+  <div>
+    <label>Price</label>
+    <input type="number" formControlName="price" />
+  </div>
+
+  <div>
+    <label>Category</label>
+    <select formControlName="categoryId">
+      <option value="">Select Category</option>
+      @for (category of categories(); track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label>Brand</label>
+    <select formControlName="brandId">
+      <option value="">Select Brand</option>
+      @for (brand of brands(); track brand.id) {
+        <option [value]="brand.id">{{ brand.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label>
+      <input type="checkbox" formControlName="isActive" />
+      Active
+    </label>
+  </div>
+
+  <button type="submit" [disabled]="loading()">
+    {{ loading() ? 'Updating...' : 'Update Product' }}
+  </button>
+  <h4>Uploaded Images</h4>
+
+    @for (image of productImages(); track image.id) {
+    <div>
+        <img [src]="image.imageUrl" width="80" height="80" />
+    </div>
+    }
+</form>

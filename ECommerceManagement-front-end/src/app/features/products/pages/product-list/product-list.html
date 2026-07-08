@@ -1,0 +1,76 @@
+<h2>Products</h2>
+@if (authService.isAdmin()) {
+  <button type="button" routerLink="/products/create">
+    Add Product
+  </button>
+}
+@if (loading()) {
+
+    <p>Loading...</p>
+
+}
+
+@else if (error()) {
+
+    <p>{{ error() }}</p>
+
+}
+
+@else {
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @for(product of products(); track product.id){
+
+        <tr>
+
+            <td>{{ product.name }}</td>
+            <td>{{ product.sku }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.categoryName }}</td>
+            <td>{{ product.brandName }}</td>
+            <td>
+                @if (product.images && product.images.length > 0) {
+                    <img
+                    [src]="product.images[0].imageUrl"
+                    width="60"
+                    height="60"
+                    style="object-fit: cover;"
+                    />
+                } @else {
+                    No image
+                }
+            </td>
+            <td>
+                <button type="button" (click)="deleteProduct(product.id)">
+                    Delete
+                </button>
+                <button type="button" [routerLink]="['/products/edit', product.id]">
+                    Edit
+                </button>
+            </td>
+        </tr>
+
+        }
+
+    </tbody>
+
+</table>
+
+}

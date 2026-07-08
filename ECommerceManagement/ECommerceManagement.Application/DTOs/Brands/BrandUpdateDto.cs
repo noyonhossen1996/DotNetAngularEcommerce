@@ -1,0 +1,9 @@
+﻿namespace ECommerceManagement.Application.DTOs.Brands
+{
+    public class BrandUpdateDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public bool IsActive { get; set; }
+    }
+}

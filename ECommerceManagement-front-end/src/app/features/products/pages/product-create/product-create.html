@@ -1,0 +1,53 @@
+<h2>Create Product</h2>
+
+@if (error()) {
+  <p style="color:red">{{ error() }}</p>
+}
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div>
+    <label>Name</label>
+    <input type="text" formControlName="name" />
+  </div>
+
+  <div>
+    <label>Description</label>
+    <textarea formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label>SKU</label>
+    <input type="text" formControlName="sku" />
+  </div>
+
+  <div>
+    <label>Price</label>
+    <input type="number" formControlName="price" />
+  </div>
+
+  <div>
+    <label>Category</label>
+    <select formControlName="categoryId">
+      <option value="">Select Category</option>
+
+      @for (category of categories(); track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label>Brand</label>
+    <select formControlName="brandId">
+      <option value="">Select Brand</option>
+
+      @for (brand of brands(); track brand.id) {
+        <option [value]="brand.id">{{ brand.name }}</option>
+      }
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="loading()">
+    {{ loading() ? 'Saving...' : 'Save Product' }}
+  </button>
+</form>

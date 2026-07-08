@@ -1,0 +1,17 @@
+<nav>
+  <a routerLink="/products">Products</a>
+
+  @if (authService.isAdmin()) {
+    <a routerLink="/products/create">Create Product</a>
+  }
+
+  @if (authService.isLoggedIn()) {
+    <span>{{ authService.currentUser()?.fullName }}</span>
+    <button type="button" (click)="logout()">Logout</button>
+  } @else {
+    <a routerLink="/login">Login</a>
+    <a routerLink="/register">Register</a>
+  }
+</nav>
+
+<hr />
