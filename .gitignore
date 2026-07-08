@@ -1,0 +1,10 @@
+/ECommerceManagement/ECommerceManagement/bin
+/ECommerceManagement/ECommerceManagement/Logs
+/ECommerceManagement/ECommerceManagement/obj
+/ECommerceManagement/.vs
+/ECommerceManagement/ECommerceManagement.Application/bin
+/ECommerceManagement/ECommerceManagement.Application/obj
+/ECommerceManagement/ECommerceManagement.Domain/bin
+/ECommerceManagement/ECommerceManagement.Domain/obj
+/ECommerceManagement/ECommerceManagement.Infrastructure/obj
+/ECommerceManagement/ECommerceManagement.Infrastructure/bin
