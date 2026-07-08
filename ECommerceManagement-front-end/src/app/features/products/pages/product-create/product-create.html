@@ -1,53 +1,71 @@
-<h2>Create Product</h2>
-
-@if (error()) {
-  <p style="color:red">{{ error() }}</p>
-}
-
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div>
-    <label>Name</label>
-    <input type="text" formControlName="name" />
+<div class="container py-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <h2 class="mb-0">Create Product</h2>
+    <a class="btn btn-outline-secondary" routerLink="/products">
+      <i class="bi bi-arrow-left me-1"></i>
+      Back
+    </a>
   </div>
 
-  <div>
-    <label>Description</label>
-    <textarea formControlName="description"></textarea>
+  @if (error()) {
+    <div class="alert alert-danger" role="alert">{{ error() }}</div>
+  }
+
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" formControlName="name" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" for="sku">SKU</label>
+            <input class="form-control" id="sku" type="text" formControlName="sku" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label" for="price">Price</label>
+            <input class="form-control" id="price" type="number" formControlName="price" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label" for="categoryId">Category</label>
+            <select class="form-select" id="categoryId" formControlName="categoryId">
+              <option value="">Select Category</option>
+              @for (category of categories(); track category.id) {
+                <option [value]="category.id">{{ category.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label" for="brandId">Brand</label>
+            <select class="form-select" id="brandId" formControlName="brandId">
+              <option value="">Select Brand</option>
+              @for (brand of brands(); track brand.id) {
+                <option [value]="brand.id">{{ brand.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" id="description" rows="4" formControlName="description"></textarea>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <a class="btn btn-outline-secondary" routerLink="/products">Cancel</a>
+          <button class="btn btn-primary" type="submit" [disabled]="loading()">
+            @if (loading()) {
+              <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
+            {{ loading() ? 'Saving...' : 'Save Product' }}
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-
-  <div>
-    <label>SKU</label>
-    <input type="text" formControlName="sku" />
-  </div>
-
-  <div>
-    <label>Price</label>
-    <input type="number" formControlName="price" />
-  </div>
-
-  <div>
-    <label>Category</label>
-    <select formControlName="categoryId">
-      <option value="">Select Category</option>
-
-      @for (category of categories(); track category.id) {
-        <option [value]="category.id">{{ category.name }}</option>
-      }
-    </select>
-  </div>
-
-  <div>
-    <label>Brand</label>
-    <select formControlName="brandId">
-      <option value="">Select Brand</option>
-
-      @for (brand of brands(); track brand.id) {
-        <option [value]="brand.id">{{ brand.name }}</option>
-      }
-    </select>
-  </div>
-
-  <button type="submit" [disabled]="loading()">
-    {{ loading() ? 'Saving...' : 'Save Product' }}
-  </button>
-</form>
+</div>

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../../categories/services/category';
 import { BrandService } from '../../../brands/services/brand';
@@ -9,7 +9,7 @@ import { Brand } from '../../../../shared/models/brand';
 
 @Component({
   selector: 'app-product-create',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './product-create.html',
   styleUrl: './product-create.css'
 })

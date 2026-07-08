@@ -1,79 +1,119 @@
-<h2>Edit Product</h2>
-
-<hr />
-
-<h3>Product Images</h3>
-
-<input type="file" accept="image/*" (change)="onFileSelected($event)" />
-
-<button type="button" (click)="uploadImage()">
-  Upload Image
-</button>
-
-@if (form.value) {
-  <p>After upload, product images will be visible in product list/details.</p>
-}
-
-@if (error()) {
-  <p style="color:red">{{ error() }}</p>
-}
-
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div>
-    <label>Name</label>
-    <input type="text" formControlName="name" />
+<div class="container py-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <h2 class="mb-0">Edit Product</h2>
+    <a class="btn btn-outline-secondary" routerLink="/products">
+      <i class="bi bi-arrow-left me-1"></i>
+      Back
+    </a>
   </div>
 
-  <div>
-    <label>Description</label>
-    <textarea formControlName="description"></textarea>
-  </div>
+  @if (error()) {
+    <div class="alert alert-danger" role="alert">{{ error() }}</div>
+  }
 
-  <div>
-    <label>SKU</label>
-    <input type="text" formControlName="sku" />
-  </div>
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" id="name" type="text" formControlName="name" />
+              </div>
 
-  <div>
-    <label>Price</label>
-    <input type="number" formControlName="price" />
-  </div>
+              <div class="col-md-6">
+                <label class="form-label" for="sku">SKU</label>
+                <input class="form-control" id="sku" type="text" formControlName="sku" />
+              </div>
 
-  <div>
-    <label>Category</label>
-    <select formControlName="categoryId">
-      <option value="">Select Category</option>
-      @for (category of categories(); track category.id) {
-        <option [value]="category.id">{{ category.name }}</option>
-      }
-    </select>
-  </div>
+              <div class="col-md-4">
+                <label class="form-label" for="price">Price</label>
+                <input class="form-control" id="price" type="number" formControlName="price" />
+              </div>
 
-  <div>
-    <label>Brand</label>
-    <select formControlName="brandId">
-      <option value="">Select Brand</option>
-      @for (brand of brands(); track brand.id) {
-        <option [value]="brand.id">{{ brand.name }}</option>
-      }
-    </select>
-  </div>
+              <div class="col-md-4">
+                <label class="form-label" for="categoryId">Category</label>
+                <select class="form-select" id="categoryId" formControlName="categoryId">
+                  <option value="">Select Category</option>
+                  @for (category of categories(); track category.id) {
+                    <option [value]="category.id">{{ category.name }}</option>
+                  }
+                </select>
+              </div>
 
-  <div>
-    <label>
-      <input type="checkbox" formControlName="isActive" />
-      Active
-    </label>
-  </div>
+              <div class="col-md-4">
+                <label class="form-label" for="brandId">Brand</label>
+                <select class="form-select" id="brandId" formControlName="brandId">
+                  <option value="">Select Brand</option>
+                  @for (brand of brands(); track brand.id) {
+                    <option [value]="brand.id">{{ brand.name }}</option>
+                  }
+                </select>
+              </div>
 
-  <button type="submit" [disabled]="loading()">
-    {{ loading() ? 'Updating...' : 'Update Product' }}
-  </button>
-  <h4>Uploaded Images</h4>
+              <div class="col-12">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" id="description" rows="4" formControlName="description"></textarea>
+              </div>
 
-    @for (image of productImages(); track image.id) {
-    <div>
-        <img [src]="image.imageUrl" width="80" height="80" />
+              <div class="col-12">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" id="isActive" type="checkbox" formControlName="isActive" />
+                  <label class="form-check-label" for="isActive">Active</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <a class="btn btn-outline-secondary" routerLink="/products">Cancel</a>
+              <button class="btn btn-primary" type="submit" [disabled]="loading()">
+                @if (loading()) {
+                  <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+                }
+                {{ loading() ? 'Updating...' : 'Update Product' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    }
-</form>
+
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">Product Images</div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label" for="productImage">Upload Image</label>
+            <input class="form-control" id="productImage" type="file" accept="image/*" (change)="onFileSelected($event)" />
+          </div>
+
+          <button class="btn btn-outline-primary w-100" type="button" (click)="uploadImage()">
+            <i class="bi bi-upload me-1"></i>
+            Upload Image
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Uploaded Images</div>
+        <div class="card-body">
+          <div class="row g-2">
+            @for (image of productImages(); track image.id) {
+              <div class="col-4">
+                <img
+                  class="img-thumbnail object-fit-cover w-100"
+                  [src]="image.imageUrl"
+                  height="96"
+                  alt="Product image"
+                />
+              </div>
+            } @empty {
+              <div class="col-12 text-muted">No images uploaded.</div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

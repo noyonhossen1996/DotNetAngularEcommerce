@@ -1,31 +1,74 @@
-<h2>Register</h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-sm-10 col-md-7 col-lg-5">
+      <div class="card">
+        <div class="card-body p-4">
+          <h2 class="card-title mb-4">Register</h2>
 
-@if (error()) {
-  <p style="color:red">{{ error() }}</p>
-}
+          @if (error()) {
+            <div class="alert alert-danger" role="alert">{{ error() }}</div>
+          }
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div>
-    <label>Full Name</label>
-    <input type="text" formControlName="fullName" />
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <div class="mb-3">
+              <label class="form-label" for="fullName">Full Name</label>
+              <input
+                class="form-control"
+                id="fullName"
+                type="text"
+                formControlName="fullName"
+                [class.is-invalid]="form.controls.fullName.touched && form.controls.fullName.invalid"
+              />
+
+              @if (form.controls.fullName.touched && form.controls.fullName.invalid) {
+                <div class="invalid-feedback">Full name is required.</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input
+                class="form-control"
+                id="email"
+                type="email"
+                formControlName="email"
+                [class.is-invalid]="form.controls.email.touched && form.controls.email.invalid"
+              />
+
+              @if (form.controls.email.touched && form.controls.email.invalid) {
+                <div class="invalid-feedback">Valid email is required.</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="password">Password</label>
+              <input
+                class="form-control"
+                id="password"
+                type="password"
+                formControlName="password"
+                [class.is-invalid]="form.controls.password.touched && form.controls.password.invalid"
+              />
+
+              @if (form.controls.password.touched && form.controls.password.invalid) {
+                <div class="invalid-feedback">Password must be at least 6 characters.</div>
+              }
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit" [disabled]="loading()">
+              @if (loading()) {
+                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+              }
+              {{ loading() ? 'Registering...' : 'Register' }}
+            </button>
+          </form>
+
+          <p class="text-center mb-0 mt-4">
+            Already have account?
+            <a routerLink="/login">Login</a>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div>
-    <label>Email</label>
-    <input type="email" formControlName="email" />
-  </div>
-
-  <div>
-    <label>Password</label>
-    <input type="password" formControlName="password" />
-  </div>
-
-  <button type="submit" [disabled]="loading()">
-    {{ loading() ? 'Registering...' : 'Register' }}
-  </button>
-</form>
-
-<p>
-  Already have account?
-  <a routerLink="/login">Login</a>
-</p>
+</div>
